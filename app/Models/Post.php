@@ -1,11 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use App\Models\Post;
 
-class Post extends Model
+
+class PostController extends Controller
 {
-    use HasFactory;
+    public function index(Post $post)
+    {
+        // updated_atで降順に並べたあと、limitで件数制限をかける
+        return $this->orderBy('updated_at', 'DESC')->paginate($limit_count);
+        return view('posts.index')->with(['posts' => $post->getByLimit()]);
+    }
 }
